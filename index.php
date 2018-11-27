@@ -1,44 +1,27 @@
+<html>
+<head>
+
+</head>
+<body>
 <?php
-/* Copyright (C) Sam Hermans - All Rights Reserved
- * Written by Sam Hermans, 27/11/2018
- */
-
-include_once 'settings.php';
+include_once 'Trello.class.php';
 
 
-$res =
-var_dump($res);
+$res = Trello::GetBoardListsAndCards(BOARD_ID);
 
-class Trello {
-
-    public static function GetBoards() {
-        return Trello::call('/1/members/me/boards');
+foreach($res as $board) {
+    echo $board['name'] . sizeof($board['cards']);
+    foreach($board['cards'] as $card) {
+        echo $card['name'];
     }
-
-    private static function call ($path, $extradata = false) {
-
-        $data = ['key' => API_KEY, 'token' => API_TOKEN];
-        // optional parameters
-        if($extradata) {
-            array_merge($data, $extradata);
-        }
-
-        // convert data to get parameters
-        $params = '';
-        foreach($data as $key=>$value) {
-            $params .= $key.'='.$value.'&';
-        }
-
-        // remove trailing &
-        $params = trim($params, '&');
-
-        // call it
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, "https://api.trello.com" . $path . '?' . $params);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        $output = curl_exec($ch);
-        curl_close($ch);
-
-        return $output;
-    }
+    echo "<br/><br/>";
 }
+
+// Pretty print
+function debug($var) { print '<pre>'; print_r($var); print '</pre>'; }
+
+?>
+</body>
+</html>
+
+

@@ -7,3 +7,6 @@
 // go to https://trello.com/app-key
 DEFINE('API_KEY', '');
 DEFINE('API_TOKEN','');
+
+// Some board
+DEFINE('BOARD_ID', '');
